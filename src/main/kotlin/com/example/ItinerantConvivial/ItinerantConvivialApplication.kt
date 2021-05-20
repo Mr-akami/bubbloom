@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class ItinerantConvivialApplication
 
 fun main(args: Array<String>) {
-	runApplication<ItinerantConvivialApplication>(*args)
+    runApplication<ItinerantConvivialApplication>(*args)
 }
