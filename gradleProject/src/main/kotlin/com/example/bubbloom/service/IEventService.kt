@@ -1,6 +1,6 @@
 package com.example.bubbloom.service
 
-import com.example.bubbloom.domain.Event
+import com.example.bubbloom.entities.Event
 
 interface IEventService {
 

@@ -1,7 +1,7 @@
 package com.example.bubbloom.controller
 
 import com.example.bubbloom.service.IEventService
-import com.example.bubbloom.domain.Event
+import com.example.bubbloom.entities.Event
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

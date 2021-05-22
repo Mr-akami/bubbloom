@@ -1,7 +1,7 @@
 package com.example.bubbloom.repository
 
 import com.example.bubbloom.service.IEventRepository
-import com.example.bubbloom.domain.Event
+import com.example.bubbloom.entities.Event
 
 class InMemoryEventRepository : IEventRepository {
 
