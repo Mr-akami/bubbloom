@@ -42,8 +42,8 @@ services:
     build: .
     environment: 
       - NODE_ENV=development
-    #volumes: 
-      # - ./:/usr/src/sample-app
+    volumes: 
+       - ../:/usr/bubbloom/frontend
     #command: sh -c 'cd frontend && yarn start'
     ports: 
       - '3000:3000'
@@ -52,7 +52,7 @@ services:
 
 *build:*  dockerfileの場所を指定  
 *environment:*  よくわからない  
-*volumes:* ローカルのディレクトリ:docker内のディレクトリをマウント。今回は使用しないが使いたくなったときのためにコメントとして残す。  
+*volumes:* dockerfileのひとつ上の階層にfrontendをマウント 
 *command:*  実行時にコマンドを実行できる。  
 *port:* dockerのポートを指定。デフォルトで3000:3000。  
 *tty:*   trueでコンテナを永続化。trueにしないとポート待受などをしてないコンテナはすぐ終了する。
