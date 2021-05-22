@@ -1,6 +1,6 @@
-package com.example.ItinerantConvivial.service
+package com.example.bubbloom.service
 
-import com.example.ItinerantConvivial.domain.Event
+import com.example.bubbloom.domain.Event
 
 interface IEventService {
 

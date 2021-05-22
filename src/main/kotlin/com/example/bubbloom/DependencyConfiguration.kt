@@ -1,8 +1,8 @@
-package com.example.ItinerantConvivial
+package com.example.bubbloom
 
-import com.example.ItinerantConvivial.service.EventService
-import com.example.ItinerantConvivial.service.IEventService
-import com.example.ItinerantConvivial.repository.InMemoryEventRepository
+import com.example.bubbloom.service.EventService
+import com.example.bubbloom.service.IEventService
+import com.example.bubbloom.repository.InMemoryEventRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

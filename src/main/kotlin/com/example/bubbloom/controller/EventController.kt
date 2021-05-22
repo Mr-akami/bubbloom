@@ -1,7 +1,7 @@
-package com.example.ItinerantConvivial.controller
+package com.example.bubbloom.controller
 
-import com.example.ItinerantConvivial.service.IEventService
-import com.example.ItinerantConvivial.domain.Event
+import com.example.bubbloom.service.IEventService
+import com.example.bubbloom.domain.Event
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping

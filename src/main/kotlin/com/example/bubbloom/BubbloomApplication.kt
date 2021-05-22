@@ -1,11 +1,11 @@
-package com.example.ItinerantConvivial
+package com.example.bubbloom
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class ItinerantConvivialApplication
+class BubbloomApplication
 
 fun main(args: Array<String>) {
-    runApplication<ItinerantConvivialApplication>(*args)
+    runApplication<BubbloomApplication>(*args)
 }

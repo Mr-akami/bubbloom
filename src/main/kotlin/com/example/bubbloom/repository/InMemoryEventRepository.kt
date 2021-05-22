@@ -1,7 +1,7 @@
-package com.example.ItinerantConvivial.repository
+package com.example.bubbloom.repository
 
-import com.example.ItinerantConvivial.service.IEventRepository
-import com.example.ItinerantConvivial.domain.Event
+import com.example.bubbloom.service.IEventRepository
+import com.example.bubbloom.domain.Event
 
 class InMemoryEventRepository : IEventRepository {
 

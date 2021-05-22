@@ -1,13 +1,13 @@
-package com.example.ItinerantConvivial
+package com.example.bubbloom
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class ItinerantConvivialApplicationTests {
+class BubbloomApplicationTests {
 
-	@Test
-	fun contextLoads() {
-	}
+    @Test
+    fun contextLoads() {
+    }
 
 }

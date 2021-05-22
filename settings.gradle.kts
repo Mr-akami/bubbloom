@@ -1,1 +1,1 @@
-rootProject.name = "ItinerantConvivial"
+rootProject.name = "bubbloom"
