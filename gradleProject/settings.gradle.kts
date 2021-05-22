@@ -1,1 +1,1 @@
-rootProject.name = "bubbloom"
+rootProject.name = "gradleProject"
