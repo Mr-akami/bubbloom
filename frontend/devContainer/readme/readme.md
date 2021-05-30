@@ -91,3 +91,4 @@ services:
 * サンプルのReact + Typescriptアプリ my-app作成済み
 * アプリ起動方法 cd my-app, npm  startで自動でブラウザが起動しindexが表示される
 * 初期のワークスペースはusr/bubbloom/frontend
+* npmのバージョンが古くてビルドエラーが起こる場合、dockerをリビルドしてみて下さい。それでも治らなければdocker内で依存関係を直さないといけないかもしれません。
