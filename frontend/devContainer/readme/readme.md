@@ -59,7 +59,8 @@ services:
 
 
 ### dockerコマンド
-*docker ps* 起動中のイメージ情報を取得できる
+*docker-compose up* dokerイメージの起動  
+*docker ps* 起動中のイメージ情報を取得できる  
 *docker exec -it コンテナ名 /bin/bash* 起動中のコンテナに入ることができる。dockerfileができ上がるまではよく使う。
 
 

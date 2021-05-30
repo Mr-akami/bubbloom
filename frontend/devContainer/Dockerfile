@@ -14,8 +14,11 @@ RUN mkdir -p ${bubbloom_frontend_dir}
 
 WORKDIR ${bubbloom_frontend_dir}
 
+# Firebase SDKインストール
+RUN npm install --save firebase
+
 # reactに必要な依存パッケージをインストール
 # create-react-appで最新の依存パッケージが入る。作成されたテンプレートは不要なので削除。
 RUN npx create-react-app my-app --template typescript
-#RUN rm -rf my-app
+RUN rm -rf my-app
 
