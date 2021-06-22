@@ -9,7 +9,6 @@ class InMemoryEventRepository : IEventRepository {
 
     @Synchronized
     override fun getAll(): List<Event> {
-        events.add(Event(1))
         return ArrayList<Event>(events)
     }
 
