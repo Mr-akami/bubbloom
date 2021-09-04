@@ -5,4 +5,19 @@ services:
   event-service:
     build: ./gradleProject/eventService/
     ports:
+      - "49160:8080"
+    networks:
+      - backend
+
+  web-server:
+    build: ./webserver/
+    ports:
       - "8080:8080"
+    depends_on:
+      - event-service
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
