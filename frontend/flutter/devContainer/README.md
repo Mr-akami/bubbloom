@@ -38,3 +38,18 @@ https://github.com/toshi-click/flutter_web_develop.git
     ```
     flutter build web
     ```
+
+## VS Code のRemote Containerでの使い方
+
+1. VS Code をdevContainerで開く
+2. 左下の[><]マークをクリックし、”Open Folder in Container”をクリック
+3. 自分のいるフォルダ（devContainer）をクリック
+   1. 初回の場合、どのファイルでdockerを実行するか選択肢が出るため、docker-compose.ymlを選択
+
+起動後、作業ディレクトリは/usr/local/workspaceのため、コマンドを実行するときは手動でカレントディレクトリを移動させる（Todo 起動時にカレントディレクトリを作業ディレクトリにする）
+
+
+## Tips
+
+なぜかFlutterのビルド環境が簡単に壊れる。Dockerの多重起動などが原因？  
+なぜかわからないけどビルドやサーバ起動ができなくなったら再度Cloneしてください。
