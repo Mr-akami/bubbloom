@@ -1,8 +1,10 @@
 package com.example.bubbloom.service
 
 import com.example.bubbloom.entities.Event
+import org.springframework.stereotype.Service
 
-class EventService(private val repository: IEventRepository) :
+@Service
+class EventService constructor(private val repository: IEventRepository) :
     IEventService {
 
     override fun getAllEvents(): List<Event> {
