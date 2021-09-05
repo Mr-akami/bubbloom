@@ -6,13 +6,16 @@ services:
     image: mariadb:10.5.12
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: eventdb
+      MYSQL_DATABASE: event_service_db
     ports:
       - "3306:3306"
     volumes:
       - type: volume
         source: event-volume
         target: /var/lib/mysql
+      - type: bind
+        source: ./gradleProject/eventService/src/main/resources/db
+        target: /docker-entrypoint-initdb.d
     networks:
       - backend
 

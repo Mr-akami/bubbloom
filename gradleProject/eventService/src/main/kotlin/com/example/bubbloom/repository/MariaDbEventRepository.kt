@@ -4,29 +4,46 @@ import com.example.bubbloom.entities.Event
 import com.example.bubbloom.service.IEventRepository
 import org.springframework.stereotype.Repository
 import java.sql.DriverManager
+import java.sql.ResultSet
+import kotlin.collections.ArrayList
 
 @Repository
 class MariaDbEventRepository() : IEventRepository {
 
-    init {
-        println("MariaDB repo init")
-        DriverManager.getConnection("jdbc:mariadb://event-db/", "root", "root").use { conn ->
-            conn.createStatement().use { stmt ->
-                stmt.executeQuery("SELECT 'Hello World!'").use { rs ->
-                    rs.first()
-                    println(rs.getString(1)) //result is "Hello World!"
-                }
-            }
-        }
+    companion object {
+        private const val ADDRESS = "event-db"
+        private const val PORT = "3306"
+        private const val USER = "root"
+        private const val PASS = "root"
+        private const val DATABASE = "event_service_db"
+        private const val TABLE = "event"
+        private const val URL = "jdbc:mariadb://$ADDRESS:$PORT/$DATABASE"
+        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
     }
 
     @Synchronized
     override fun getAll(): List<Event> {
-        return emptyList()
+        val events = ArrayList<Event>()
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.createStatement().use { statement ->
+                statement.executeQuery(GET_ALL_QUERY).use { resultSet ->
+                    while (resultSet.next()) {
+                        events.add(buildEventFrom(resultSet))
+                    }
+                }
+            }
+        }
+        return events
     }
 
     @Synchronized
     override fun save(event: Event) {
-        return
+        // TODO Implement save operation.
+    }
+
+    private fun buildEventFrom(resultSet: ResultSet): Event {
+        val id = resultSet.getInt("id")
+        val title = resultSet.getString("title")
+        return Event(id, title)
     }
 }
