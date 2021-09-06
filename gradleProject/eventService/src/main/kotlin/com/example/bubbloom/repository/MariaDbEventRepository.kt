@@ -19,6 +19,7 @@ class MariaDbEventRepository() : IEventRepository {
         private const val TABLE = "event"
         private const val URL = "jdbc:mariadb://$ADDRESS:$PORT/$DATABASE"
         private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
+        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?)";
     }
 
     @Synchronized
@@ -38,7 +39,13 @@ class MariaDbEventRepository() : IEventRepository {
 
     @Synchronized
     override fun save(event: Event) {
-        // TODO Implement save operation.
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(INSERT_QUERY).use { statement ->
+                statement.setInt(1, event.id)
+                statement.setString(2, event.title)
+                statement.executeUpdate()
+            }
+        }
     }
 
     private fun buildEventFrom(resultSet: ResultSet): Event {
