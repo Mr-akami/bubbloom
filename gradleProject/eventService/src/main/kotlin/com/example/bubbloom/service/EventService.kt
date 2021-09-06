@@ -4,8 +4,7 @@ import com.example.bubbloom.entities.Event
 import org.springframework.stereotype.Service
 
 @Service
-class EventService constructor(private val repository: IEventRepository) :
-    IEventService {
+class EventService constructor(private val repository: IEventRepository) : IEventService {
 
     override fun getAllEvents(): List<Event> {
         return repository.getAll()
@@ -13,5 +12,9 @@ class EventService constructor(private val repository: IEventRepository) :
 
     override fun saveEvent(event: Event) {
         repository.save(event)
+    }
+
+    override fun deleteEvent(id: Int) {
+        repository.delete(id)
     }
 }

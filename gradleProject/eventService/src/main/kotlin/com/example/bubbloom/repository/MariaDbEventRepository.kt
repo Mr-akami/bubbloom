@@ -19,7 +19,8 @@ class MariaDbEventRepository() : IEventRepository {
         private const val TABLE = "event"
         private const val URL = "jdbc:mariadb://$ADDRESS:$PORT/$DATABASE"
         private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
-        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?)";
+        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?)"
+        private const val DELETE_QUERY = "DELETE FROM $TABLE WHERE id=?;"
     }
 
     @Synchronized
@@ -43,6 +44,16 @@ class MariaDbEventRepository() : IEventRepository {
             conn.prepareStatement(INSERT_QUERY).use { statement ->
                 statement.setInt(1, event.id)
                 statement.setString(2, event.title)
+                statement.executeUpdate()
+            }
+        }
+    }
+
+    @Synchronized
+    override fun delete(id: Int) {
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(DELETE_QUERY).use { statement ->
+                statement.setInt(1, id)
                 statement.executeUpdate()
             }
         }

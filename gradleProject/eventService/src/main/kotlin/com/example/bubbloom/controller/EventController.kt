@@ -2,10 +2,7 @@ package com.example.bubbloom.controller
 
 import com.example.bubbloom.service.IEventService
 import com.example.bubbloom.entities.Event
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class EventController constructor(private val eventService: IEventService) {
@@ -18,5 +15,10 @@ class EventController constructor(private val eventService: IEventService) {
     @PostMapping("/events/")
     fun saveEvent(@RequestBody event: Event) {
         eventService.saveEvent(event)
+    }
+
+    @DeleteMapping("/events/{id}")
+    fun deleteEvent(@PathVariable id: Int) {
+        eventService.deleteEvent(id)
     }
 }
