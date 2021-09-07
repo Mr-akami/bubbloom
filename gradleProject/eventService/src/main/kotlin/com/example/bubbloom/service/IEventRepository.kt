@@ -7,4 +7,6 @@ interface IEventRepository {
     fun getAll(): List<Event>
 
     fun save(event: Event)
+
+    fun delete(id: Int)
 }

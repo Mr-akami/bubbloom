@@ -7,4 +7,6 @@ interface IEventService {
     fun getAllEvents(): List<Event>
 
     fun saveEvent(event: Event)
+
+    fun deleteEvent(id: Int)
 }
