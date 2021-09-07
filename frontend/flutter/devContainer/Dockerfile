@@ -68,4 +68,6 @@ ENV PATH "$PATH:/usr/local/flutter/bin"
 RUN flutter config --enable-web
 RUN flutter doctor
 
+WORKDIR /usr/local/workspace
+
 EXPOSE ${WEB_SERVER_PORT}
