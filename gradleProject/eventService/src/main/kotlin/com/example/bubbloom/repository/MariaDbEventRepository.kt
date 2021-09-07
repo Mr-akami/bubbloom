@@ -18,13 +18,15 @@ class MariaDbEventRepository() : IEventRepository {
         private const val DATABASE = "event_service_db"
         private const val TABLE = "event"
         private const val URL = "jdbc:mariadb://$ADDRESS:$PORT/$DATABASE"
-        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
         private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?)"
+        private const val GET_QUERY = "SELECT * FROM $TABLE WHERE id=?;"
+        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
         private const val DELETE_QUERY = "DELETE FROM $TABLE WHERE id=?;"
     }
 
     @Synchronized
     override fun save(event: Event) {
+        // TODO Extract DB connection part!
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(INSERT_QUERY).use { statement ->
                 statement.setInt(1, event.id)
@@ -36,7 +38,14 @@ class MariaDbEventRepository() : IEventRepository {
 
     @Synchronized
     override fun get(id: Int): Event? {
-        return null;
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(GET_QUERY).use { statement ->
+                statement.setInt(1, id)
+                statement.executeQuery().use { resultSet ->
+                    return if (resultSet.next()) buildEventFrom(resultSet) else null
+                }
+            }
+        }
     }
 
     @Synchronized
