@@ -24,6 +24,22 @@ class MariaDbEventRepository() : IEventRepository {
     }
 
     @Synchronized
+    override fun save(event: Event) {
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(INSERT_QUERY).use { statement ->
+                statement.setInt(1, event.id)
+                statement.setString(2, event.title)
+                statement.executeUpdate()
+            }
+        }
+    }
+
+    @Synchronized
+    override fun get(id: Int): Event? {
+        return null;
+    }
+
+    @Synchronized
     override fun getAll(): List<Event> {
         val events = ArrayList<Event>()
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
@@ -39,14 +55,8 @@ class MariaDbEventRepository() : IEventRepository {
     }
 
     @Synchronized
-    override fun save(event: Event) {
-        DriverManager.getConnection(URL, USER, PASS).use { conn ->
-            conn.prepareStatement(INSERT_QUERY).use { statement ->
-                statement.setInt(1, event.id)
-                statement.setString(2, event.title)
-                statement.executeUpdate()
-            }
-        }
+    override fun update(event: Event) {
+        // TODO Implement update!
     }
 
     @Synchronized

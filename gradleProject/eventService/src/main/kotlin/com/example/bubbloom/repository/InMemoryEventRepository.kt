@@ -10,13 +10,24 @@ class InMemoryEventRepository : IEventRepository {
     private val events = HashMap<Int, Event>()
 
     @Synchronized
+    override fun save(event: Event) {
+        events[event.id] = event
+    }
+
+    @Override
+    override fun get(id: Int): Event? {
+        return events[id]
+    }
+
+    @Synchronized
     override fun getAll(): List<Event> {
         return ArrayList(events.values)
     }
 
     @Synchronized
-    override fun save(event: Event) {
-        events[event.id] = event
+    override fun update(event: Event) {
+        val eventToUpdate: Event? = events[event.id]
+        eventToUpdate?.title = event.title
     }
 
     @Synchronized
