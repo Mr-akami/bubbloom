@@ -48,7 +48,7 @@ class EventController constructor(private val eventService: IEventService) {
     }
 
     private fun convertException(original: Exception): ResponseStatusException {
-        // TODO Create custom exceptions used by the service and convert them to appropriate HTTP errors here.
+        // Convert exceptions thrown by the service to appropriate HTTP errors here.
         return if (original is IndexOutOfBoundsException) {
             ResponseStatusException(HttpStatus.NOT_FOUND, original.message)
         } else {
