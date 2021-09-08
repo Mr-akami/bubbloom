@@ -2,6 +2,7 @@ package com.example.bubbloom.controller
 
 import com.example.bubbloom.service.IEventService
 import com.example.bubbloom.entities.Event
+import com.example.bubbloom.service.EventDto
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -10,12 +11,12 @@ import org.springframework.web.server.ResponseStatusException
 class EventController constructor(private val eventService: IEventService) {
 
     @PostMapping("/events/")
-    fun saveEvent(@RequestBody event: Event) {
-        eventService.saveEvent(event)
+    fun saveEvent(@RequestBody eventDto: EventDto) {
+        eventService.saveEvent(eventDto)
     }
 
     @GetMapping("/events/{id}")
-    fun getEvent(@PathVariable id: Int): Event? {
+    fun getEvent(@PathVariable id: Int): EventDto {
         try {
             return eventService.getEvent(id)
         } catch (e: Exception) {
@@ -24,14 +25,14 @@ class EventController constructor(private val eventService: IEventService) {
     }
 
     @GetMapping("/events/")
-    fun getAllEvents(): List<Event> {
+    fun getAllEvents(): List<EventDto> {
         return eventService.getAllEvents()
     }
 
     @PutMapping("/events/{id}")
-    fun updateEvent(@PathVariable id: Int, @RequestBody event: Event) {
+    fun updateEvent(@PathVariable id: Int, @RequestBody eventDto: EventDto) {
         try {
-            eventService.updateEvent(id, event)
+            eventService.updateEvent(id, eventDto)
         } catch (e: Exception) {
             throw convertException(e)
         }

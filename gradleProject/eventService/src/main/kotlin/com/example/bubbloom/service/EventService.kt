@@ -2,8 +2,8 @@ package com.example.bubbloom.service
 
 import com.example.bubbloom.entities.Event
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 import java.util.concurrent.locks.ReentrantReadWriteLock
+import java.util.stream.Collectors
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
@@ -12,29 +12,38 @@ class EventService constructor(private val repository: IEventRepository) : IEven
 
     private val repositoryLock = ReentrantReadWriteLock()
 
-    override fun saveEvent(event: Event) {
+    override fun saveEvent(eventDto: EventDto): EventDto {
+        var newEvent: Event?
         repositoryLock.write {
-            repository.save(event)
+            // TODO Add ID generation logic!
+            newEvent = buildEventFrom(eventDto)
+            repository.save(newEvent!!)
         }
+        return buildDtoFrom(newEvent!!)
     }
 
-    override fun getEvent(id: Int): Event {
+    override fun getEvent(id: Int): EventDto {
+        var event: Event?
         repositoryLock.read {
             validateId(id)
-            return repository.get(id)!! // The id has been validated.
+            event = repository.get(id)
         }
+        return buildDtoFrom(event!!)
     }
 
-    override fun getAllEvents(): List<Event> {
+    override fun getAllEvents(): List<EventDto> {
         repositoryLock.read {
-            return repository.getAll()
+            return repository.getAll().stream()
+                .map { event -> buildDtoFrom(event) }
+                .collect(Collectors.toList())
         }
     }
 
-    override fun updateEvent(id: Int, event: Event) {
+    override fun updateEvent(id: Int, eventDto: EventDto) {
+        val updatedEvent = buildEventFrom(eventDto)
         repositoryLock.write {
             validateId(id)
-            repository.update(id, event)
+            repository.update(id, updatedEvent)
         }
     }
 
@@ -47,5 +56,13 @@ class EventService constructor(private val repository: IEventRepository) : IEven
 
     private fun validateId(id: Int) {
         repository.get(id) ?: throw IndexOutOfBoundsException("No task exists with the specified ID.")
+    }
+
+    private fun buildDtoFrom(event: Event): EventDto {
+        return EventDto(event.id, event.title)
+    }
+
+    private fun buildEventFrom(dto: EventDto): Event {
+        return Event(dto.id, dto.title)
     }
 }

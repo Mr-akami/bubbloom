@@ -4,13 +4,13 @@ import com.example.bubbloom.entities.Event
 
 interface IEventService {
 
-    fun saveEvent(event: Event)
+    fun saveEvent(event: EventDto): EventDto
 
-    fun getEvent(id: Int): Event
+    fun getEvent(id: Int): EventDto
 
-    fun getAllEvents(): List<Event>
+    fun getAllEvents(): List<EventDto>
 
-    fun updateEvent(id: Int, event: Event)
+    fun updateEvent(id: Int, event: EventDto)
 
     fun deleteEvent(id: Int)
 }
