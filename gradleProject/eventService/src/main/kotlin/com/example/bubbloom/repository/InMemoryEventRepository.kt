@@ -25,8 +25,8 @@ class InMemoryEventRepository : IEventRepository {
     }
 
     @Synchronized
-    override fun update(event: Event) {
-        val eventToUpdate: Event? = events[event.id]
+    override fun update(id: Int, event: Event) {
+        val eventToUpdate: Event? = events[id]
         eventToUpdate?.title = event.title
     }
 

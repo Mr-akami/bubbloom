@@ -18,9 +18,10 @@ class MariaDbEventRepository() : IEventRepository {
         private const val DATABASE = "event_service_db"
         private const val TABLE = "event"
         private const val URL = "jdbc:mariadb://$ADDRESS:$PORT/$DATABASE"
-        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?)"
+        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?);"
         private const val GET_QUERY = "SELECT * FROM $TABLE WHERE id=?;"
-        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
+        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE;"
+        private const val UPDATE_QUERY = "UPDATE $TABLE SET title = ? WHERE id = ?;"
         private const val DELETE_QUERY = "DELETE FROM $TABLE WHERE id=?;"
     }
 
@@ -64,8 +65,14 @@ class MariaDbEventRepository() : IEventRepository {
     }
 
     @Synchronized
-    override fun update(event: Event) {
-        // TODO Implement update!
+    override fun update(id: Int, event: Event) {
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(UPDATE_QUERY).use { statement ->
+                statement.setString(1, event.title)
+                statement.setInt(2, id)
+                statement.executeUpdate()
+            }
+        }
     }
 
     @Synchronized

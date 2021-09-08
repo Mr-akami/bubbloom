@@ -10,7 +10,7 @@ interface IEventRepository {
 
     fun getAll(): List<Event>
 
-    fun update(event: Event)
+    fun update(id: Int, event: Event)
 
     fun delete(id: Int)
 }

@@ -20,7 +20,7 @@ class EventService constructor(private val repository: IEventRepository) : IEven
 
     override fun updateEvent(id: Int, event: Event) {
         // TODO Do ID check here!
-        repository.update(event)
+        repository.update(id, event)
     }
 
     override fun deleteEvent(id: Int) {
