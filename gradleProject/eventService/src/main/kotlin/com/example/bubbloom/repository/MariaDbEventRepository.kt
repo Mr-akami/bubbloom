@@ -18,12 +18,35 @@ class MariaDbEventRepository() : IEventRepository {
         private const val DATABASE = "event_service_db"
         private const val TABLE = "event"
         private const val URL = "jdbc:mariadb://$ADDRESS:$PORT/$DATABASE"
-        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE"
-        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?)"
+        private const val INSERT_QUERY = "INSERT INTO $TABLE (id, title) VALUES (?, ?);"
+        private const val GET_QUERY = "SELECT * FROM $TABLE WHERE id=?;"
+        private const val GET_ALL_QUERY = "SELECT * FROM $TABLE;"
+        private const val UPDATE_QUERY = "UPDATE $TABLE SET title = ? WHERE id = ?;"
         private const val DELETE_QUERY = "DELETE FROM $TABLE WHERE id=?;"
     }
 
-    @Synchronized
+    override fun save(event: Event) {
+        // TODO Extract DB connection part!
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(INSERT_QUERY).use { statement ->
+                statement.setInt(1, event.id)
+                statement.setString(2, event.title)
+                statement.executeUpdate()
+            }
+        }
+    }
+
+    override fun get(id: Int): Event? {
+        DriverManager.getConnection(URL, USER, PASS).use { conn ->
+            conn.prepareStatement(GET_QUERY).use { statement ->
+                statement.setInt(1, id)
+                statement.executeQuery().use { resultSet ->
+                    return if (resultSet.next()) buildEventFrom(resultSet) else null
+                }
+            }
+        }
+    }
+
     override fun getAll(): List<Event> {
         val events = ArrayList<Event>()
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
@@ -38,18 +61,16 @@ class MariaDbEventRepository() : IEventRepository {
         return events
     }
 
-    @Synchronized
-    override fun save(event: Event) {
+    override fun update(id: Int, event: Event) {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
-            conn.prepareStatement(INSERT_QUERY).use { statement ->
-                statement.setInt(1, event.id)
-                statement.setString(2, event.title)
+            conn.prepareStatement(UPDATE_QUERY).use { statement ->
+                statement.setString(1, event.title)
+                statement.setInt(2, id)
                 statement.executeUpdate()
             }
         }
     }
 
-    @Synchronized
     override fun delete(id: Int) {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(DELETE_QUERY).use { statement ->
