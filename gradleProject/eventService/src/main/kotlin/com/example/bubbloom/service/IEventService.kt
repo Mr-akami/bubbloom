@@ -6,7 +6,7 @@ interface IEventService {
 
     fun saveEvent(event: Event)
 
-    fun getEvent(id: Int): Event?
+    fun getEvent(id: Int): Event
 
     fun getAllEvents(): List<Event>
 

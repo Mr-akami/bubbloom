@@ -25,7 +25,6 @@ class MariaDbEventRepository() : IEventRepository {
         private const val DELETE_QUERY = "DELETE FROM $TABLE WHERE id=?;"
     }
 
-    @Synchronized
     override fun save(event: Event) {
         // TODO Extract DB connection part!
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
@@ -37,7 +36,6 @@ class MariaDbEventRepository() : IEventRepository {
         }
     }
 
-    @Synchronized
     override fun get(id: Int): Event? {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(GET_QUERY).use { statement ->
@@ -49,7 +47,6 @@ class MariaDbEventRepository() : IEventRepository {
         }
     }
 
-    @Synchronized
     override fun getAll(): List<Event> {
         val events = ArrayList<Event>()
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
@@ -64,7 +61,6 @@ class MariaDbEventRepository() : IEventRepository {
         return events
     }
 
-    @Synchronized
     override fun update(id: Int, event: Event) {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(UPDATE_QUERY).use { statement ->
@@ -75,7 +71,6 @@ class MariaDbEventRepository() : IEventRepository {
         }
     }
 
-    @Synchronized
     override fun delete(id: Int) {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(DELETE_QUERY).use { statement ->
