@@ -2,6 +2,7 @@ package com.example.bubbloom.service
 
 import com.example.bubbloom.entities.Event
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 
 @Service
 class EventService constructor(private val repository: IEventRepository) : IEventService {
@@ -11,6 +12,7 @@ class EventService constructor(private val repository: IEventRepository) : IEven
     }
 
     override fun getEvent(id: Int): Event? {
+        validateId(id)
         return repository.get(id)
     }
 
@@ -19,11 +21,16 @@ class EventService constructor(private val repository: IEventRepository) : IEven
     }
 
     override fun updateEvent(id: Int, event: Event) {
-        // TODO Do ID check here!
+        validateId(id)
         repository.update(id, event)
     }
 
     override fun deleteEvent(id: Int) {
+        validateId(id)
         repository.delete(id)
+    }
+
+    private fun validateId(id: Int) {
+        repository.get(id) ?: throw IllegalArgumentException("No task exists with the specified ID.")
     }
 }
