@@ -46,6 +46,6 @@ class EventService constructor(private val repository: IEventRepository) : IEven
     }
 
     private fun validateId(id: Int) {
-        repository.get(id) ?: throw IllegalArgumentException("No task exists with the specified ID.")
+        repository.get(id) ?: throw IndexOutOfBoundsException("No task exists with the specified ID.")
     }
 }

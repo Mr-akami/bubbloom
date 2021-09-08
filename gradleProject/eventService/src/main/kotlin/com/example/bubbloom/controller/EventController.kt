@@ -5,7 +5,6 @@ import com.example.bubbloom.entities.Event
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import java.lang.IllegalArgumentException
 
 @RestController
 class EventController constructor(private val eventService: IEventService) {
@@ -19,7 +18,7 @@ class EventController constructor(private val eventService: IEventService) {
     fun getEvent(@PathVariable id: Int): Event? {
         try {
             return eventService.getEvent(id)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: Exception) {
             throw convertException(e)
         }
     }
@@ -33,7 +32,7 @@ class EventController constructor(private val eventService: IEventService) {
     fun updateEvent(@PathVariable id: Int, @RequestBody event: Event) {
         try {
             eventService.updateEvent(id, event)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: Exception) {
             throw convertException(e)
         }
     }
@@ -42,14 +41,14 @@ class EventController constructor(private val eventService: IEventService) {
     fun deleteEvent(@PathVariable id: Int) {
         try {
             eventService.deleteEvent(id)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: Exception) {
             throw convertException(e)
         }
     }
 
     private fun convertException(original: Exception): ResponseStatusException {
         // TODO Create custom exceptions used by the service and convert them to appropriate HTTP errors here.
-        return if (original is IllegalArgumentException) {
+        return if (original is IndexOutOfBoundsException) {
             ResponseStatusException(HttpStatus.NOT_FOUND, original.message)
         } else {
             ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, original.message)
