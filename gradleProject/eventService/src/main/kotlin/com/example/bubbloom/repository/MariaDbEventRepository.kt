@@ -26,20 +26,19 @@ class MariaDbEventRepository() : IEventRepository {
     }
 
     override fun save(event: Event) {
-        // TODO Extract DB connection part!
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(INSERT_QUERY).use { statement ->
-                statement.setInt(1, event.id)
+                statement.setString(1, event.id)
                 statement.setString(2, event.title)
                 statement.executeUpdate()
             }
         }
     }
 
-    override fun get(id: Int): Event? {
+    override fun get(id: String): Event? {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(GET_QUERY).use { statement ->
-                statement.setInt(1, id)
+                statement.setString(1, id)
                 statement.executeQuery().use { resultSet ->
                     return if (resultSet.next()) buildEventFrom(resultSet) else null
                 }
@@ -61,27 +60,27 @@ class MariaDbEventRepository() : IEventRepository {
         return events
     }
 
-    override fun update(id: Int, event: Event) {
+    override fun update(id: String, event: Event) {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(UPDATE_QUERY).use { statement ->
                 statement.setString(1, event.title)
-                statement.setInt(2, id)
+                statement.setString(2, id)
                 statement.executeUpdate()
             }
         }
     }
 
-    override fun delete(id: Int) {
+    override fun delete(id: String) {
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(DELETE_QUERY).use { statement ->
-                statement.setInt(1, id)
+                statement.setString(1, id)
                 statement.executeUpdate()
             }
         }
     }
 
     private fun buildEventFrom(resultSet: ResultSet): Event {
-        val id = resultSet.getInt("id")
+        val id = resultSet.getString("id")
         val title = resultSet.getString("title")
         return Event(id, title)
     }

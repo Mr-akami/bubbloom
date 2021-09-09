@@ -11,12 +11,12 @@ import org.springframework.web.server.ResponseStatusException
 class EventController constructor(private val eventService: IEventService) {
 
     @PostMapping("/events/")
-    fun saveEvent(@RequestBody eventInput: EventInputData) {
-        eventService.saveEvent(eventInput)
+    fun saveEvent(@RequestBody eventInput: EventInputData): EventOutputData {
+        return eventService.saveEvent(eventInput)
     }
 
     @GetMapping("/events/{id}")
-    fun getEvent(@PathVariable id: Int): EventOutputData {
+    fun getEvent(@PathVariable id: String): EventOutputData {
         try {
             return eventService.getEvent(id)
         } catch (e: Exception) {
@@ -30,7 +30,7 @@ class EventController constructor(private val eventService: IEventService) {
     }
 
     @PutMapping("/events/{id}")
-    fun updateEvent(@PathVariable id: Int, @RequestBody eventInput: EventInputData) {
+    fun updateEvent(@PathVariable id: String, @RequestBody eventInput: EventInputData) {
         try {
             eventService.updateEvent(id, eventInput)
         } catch (e: Exception) {
@@ -39,7 +39,7 @@ class EventController constructor(private val eventService: IEventService) {
     }
 
     @DeleteMapping("/events/{id}")
-    fun deleteEvent(@PathVariable id: Int) {
+    fun deleteEvent(@PathVariable id: String) {
         try {
             eventService.deleteEvent(id)
         } catch (e: Exception) {

@@ -6,11 +6,11 @@ interface IEventRepository {
 
     fun save(event: Event)
 
-    fun get(id: Int): Event?
+    fun get(id: String): Event?
 
     fun getAll(): List<Event>
 
-    fun update(id: Int, event: Event)
+    fun update(id: String, event: Event)
 
-    fun delete(id: Int)
+    fun delete(id: String)
 }
