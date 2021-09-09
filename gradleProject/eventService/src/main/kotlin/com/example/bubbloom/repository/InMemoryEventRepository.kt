@@ -7,13 +7,13 @@ import java.util.*
 //@Repository
 class InMemoryEventRepository : IEventRepository {
 
-    private val events = HashMap<Int, Event>()
+    private val events = HashMap<String, Event>()
 
     override fun save(event: Event) {
         events[event.id] = event
     }
 
-    override fun get(id: Int): Event? {
+    override fun get(id: String): Event? {
         return events[id]
     }
 
@@ -21,12 +21,12 @@ class InMemoryEventRepository : IEventRepository {
         return ArrayList(events.values)
     }
 
-    override fun update(id: Int, event: Event) {
+    override fun update(id: String, event: Event) {
         val eventToUpdate: Event? = events[id]
         eventToUpdate?.title = event.title
     }
 
-    override fun delete(id: Int) {
+    override fun delete(id: String) {
         events.remove(id)
     }
 }

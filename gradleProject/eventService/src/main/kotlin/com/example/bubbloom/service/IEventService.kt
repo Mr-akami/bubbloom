@@ -7,11 +7,11 @@ interface IEventService {
 
     fun saveEvent(eventInput: EventInputData): EventOutputData
 
-    fun getEvent(id: Int): EventOutputData
+    fun getEvent(id: String): EventOutputData
 
     fun getAllEvents(): List<EventOutputData>
 
-    fun updateEvent(id: Int, eventInput: EventInputData)
+    fun updateEvent(id: String, eventInput: EventInputData)
 
-    fun deleteEvent(id: Int)
+    fun deleteEvent(id: String)
 }

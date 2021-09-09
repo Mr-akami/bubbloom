@@ -24,18 +24,18 @@ class EventService constructor(private val repository: IEventRepository) : IEven
         repositoryLock.write {
             val newEvent = buildEventFrom(generateUniqueId(), eventInput)
             repository.save(newEvent)
-            return buildEventOutputFrom(newEvent!!)
+            return buildEventOutputFrom(newEvent)
         }
     }
 
-    private fun generateUniqueId(): Int {
+    private fun generateUniqueId(): String {
         while (true) {
-            val randomId = rand.nextInt(MAX_ID)
+            val randomId = String.format("%08d", rand.nextInt(MAX_ID + 1))
             if (repository.get(randomId) == null) return randomId
         }
     }
 
-    override fun getEvent(id: Int): EventOutputData {
+    override fun getEvent(id: String): EventOutputData {
         repositoryLock.read {
             validateId(id)
             val event = repository.get(id)
@@ -51,7 +51,7 @@ class EventService constructor(private val repository: IEventRepository) : IEven
         }
     }
 
-    override fun updateEvent(id: Int, eventInput: EventInputData) {
+    override fun updateEvent(id: String, eventInput: EventInputData) {
         val updatedEvent = buildEventFrom(id, eventInput)
         repositoryLock.write {
             validateId(id)
@@ -59,14 +59,14 @@ class EventService constructor(private val repository: IEventRepository) : IEven
         }
     }
 
-    override fun deleteEvent(id: Int) {
+    override fun deleteEvent(id: String) {
         repositoryLock.write {
             validateId(id)
             repository.delete(id)
         }
     }
 
-    private fun validateId(id: Int) {
+    private fun validateId(id: String) {
         repository.get(id) ?: throw IndexOutOfBoundsException("No task exists with the specified ID.")
     }
 
@@ -74,7 +74,7 @@ class EventService constructor(private val repository: IEventRepository) : IEven
         return EventOutputData(event.id, event.title)
     }
 
-    private fun buildEventFrom(id: Int, eventInput: EventInputData): Event {
+    private fun buildEventFrom(id: String, eventInput: EventInputData): Event {
         return Event(id, eventInput.title)
     }
 }
