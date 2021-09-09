@@ -26,7 +26,8 @@ A reply message will be sent with data of the newly created event with its id:
 ```
 
 ### Read
-To get a list of all the events, send a **GET** request to `http://localhost:8080/events/`. The result would be something like this:
+To get a list of all the events, send a **GET** request to `http://localhost:8080/events/`.
+The result will look like this:
 ```
 [
     {
@@ -51,7 +52,8 @@ To get a specific event instead of getting the whole list, send a **GET** reques
 ### Update
 To update properties in an event, send a **PUT** request with the following information:
 * Event ID in the path: `http://localhost:8080/events/1`
-* Body with properties to be updated like shown below.
+* Body with all the properties but the id. Note that you need to include unchanged properties as well.
+Otherwise, those properties will be updated with default values such as null, 0, etc.
 
 ```
 {
@@ -61,4 +63,5 @@ To update properties in an event, send a **PUT** request with the following info
 
 
 ### Delete
-To delete an event, send a **DELETE** request by specifying the id of the event as a path parameter. If you want to delete an event whose id is 1, for example, you send the following DELETE request: `http://localhost:8080/events/1`.
+To delete an event, send a **DELETE** request by specifying the id of the event as a path parameter.
+If you want to delete an event whose id is 1, for example, you send the following DELETE request: `http://localhost:8080/events/1`.
