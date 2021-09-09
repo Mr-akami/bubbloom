@@ -1,24 +1,19 @@
 package com.example.bubbloom.service
 
 import com.example.bubbloom.entities.Event
+import com.example.bubbloom.entities.IdGenerator
 import com.example.bubbloom.service.data.EventInputData
 import com.example.bubbloom.service.data.EventOutputData
 import org.springframework.stereotype.Service
-import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import java.util.stream.Collectors
 import kotlin.concurrent.read
 import kotlin.concurrent.write
 
 @Service
-class EventService constructor(private val repository: IEventRepository) : IEventService {
-
-    companion object {
-        private const val MAX_ID = 99999999;
-    }
+class EventService constructor(private val repository: IEventRepository, private val idGenerator: IdGenerator) : IEventService {
 
     private val repositoryLock = ReentrantReadWriteLock()
-    private val rand = Random()
 
     override fun saveEvent(eventInput: EventInputData): EventOutputData {
         repositoryLock.write {
@@ -30,8 +25,8 @@ class EventService constructor(private val repository: IEventRepository) : IEven
 
     private fun generateUniqueId(): String {
         while (true) {
-            val randomId = String.format("%08d", rand.nextInt(MAX_ID + 1))
-            if (repository.get(randomId) == null) return randomId
+            val id = idGenerator.generate()
+            if (repository.get(id) == null) return id
         }
     }
 
