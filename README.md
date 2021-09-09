@@ -41,7 +41,7 @@ Body: example below:
 }
 ```
 
-Note: You need to include unchanged properties in the body including unchanged ones.
+Note: The body needs to have all the propertiesgit commi including unchanged ones.
 Otherwise, those properties will be updated with default values such as null, 0, etc.
 
 ### Delete
