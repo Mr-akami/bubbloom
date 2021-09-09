@@ -26,7 +26,6 @@ class MariaDbEventRepository() : IEventRepository {
     }
 
     override fun save(event: Event) {
-        // TODO Extract DB connection part!
         DriverManager.getConnection(URL, USER, PASS).use { conn ->
             conn.prepareStatement(INSERT_QUERY).use { statement ->
                 statement.setInt(1, event.id)

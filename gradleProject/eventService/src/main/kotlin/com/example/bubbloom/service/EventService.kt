@@ -4,6 +4,7 @@ import com.example.bubbloom.entities.Event
 import com.example.bubbloom.service.data.EventInputData
 import com.example.bubbloom.service.data.EventOutputData
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import java.util.stream.Collectors
 import kotlin.concurrent.read
@@ -12,25 +13,34 @@ import kotlin.concurrent.write
 @Service
 class EventService constructor(private val repository: IEventRepository) : IEventService {
 
+    companion object {
+        private const val MAX_ID = 99999999;
+    }
+
     private val repositoryLock = ReentrantReadWriteLock()
+    private val rand = Random()
 
     override fun saveEvent(eventInput: EventInputData): EventOutputData {
-        var newEvent: Event?
         repositoryLock.write {
-            val id = 0 // TODO Add ID generation logic!
-            newEvent = buildEventFrom(id, eventInput)
-            repository.save(newEvent!!)
+            val newEvent = buildEventFrom(generateUniqueId(), eventInput)
+            repository.save(newEvent)
+            return buildEventOutputFrom(newEvent!!)
         }
-        return buildEventOutputFrom(newEvent!!)
+    }
+
+    private fun generateUniqueId(): Int {
+        while (true) {
+            val randomId = rand.nextInt(MAX_ID)
+            if (repository.get(randomId) == null) return randomId
+        }
     }
 
     override fun getEvent(id: Int): EventOutputData {
-        var event: Event?
         repositoryLock.read {
             validateId(id)
-            event = repository.get(id)
+            val event = repository.get(id)
+            return buildEventOutputFrom(event!!)
         }
-        return buildEventOutputFrom(event!!)
     }
 
     override fun getAllEvents(): List<EventOutputData> {

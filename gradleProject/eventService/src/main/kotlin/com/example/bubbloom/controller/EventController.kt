@@ -11,8 +11,8 @@ import org.springframework.web.server.ResponseStatusException
 class EventController constructor(private val eventService: IEventService) {
 
     @PostMapping("/events/")
-    fun saveEvent(@RequestBody eventInput: EventInputData) {
-        eventService.saveEvent(eventInput)
+    fun saveEvent(@RequestBody eventInput: EventInputData): EventOutputData {
+        return eventService.saveEvent(eventInput)
     }
 
     @GetMapping("/events/{id}")
