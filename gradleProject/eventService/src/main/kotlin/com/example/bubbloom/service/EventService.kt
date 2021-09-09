@@ -1,6 +1,8 @@
 package com.example.bubbloom.service
 
 import com.example.bubbloom.entities.Event
+import com.example.bubbloom.service.data.EventInputData
+import com.example.bubbloom.service.data.EventOutputData
 import org.springframework.stereotype.Service
 import java.util.concurrent.locks.ReentrantReadWriteLock
 import java.util.stream.Collectors
@@ -12,35 +14,35 @@ class EventService constructor(private val repository: IEventRepository) : IEven
 
     private val repositoryLock = ReentrantReadWriteLock()
 
-    override fun saveEvent(eventDto: EventDto): EventDto {
+    override fun saveEvent(eventInput: EventInputData): EventOutputData {
         var newEvent: Event?
         repositoryLock.write {
-            // TODO Add ID generation logic!
-            newEvent = buildEventFrom(eventDto)
+            val id = 0 // TODO Add ID generation logic!
+            newEvent = buildEventFrom(id, eventInput)
             repository.save(newEvent!!)
         }
-        return buildDtoFrom(newEvent!!)
+        return buildEventOutputFrom(newEvent!!)
     }
 
-    override fun getEvent(id: Int): EventDto {
+    override fun getEvent(id: Int): EventOutputData {
         var event: Event?
         repositoryLock.read {
             validateId(id)
             event = repository.get(id)
         }
-        return buildDtoFrom(event!!)
+        return buildEventOutputFrom(event!!)
     }
 
-    override fun getAllEvents(): List<EventDto> {
+    override fun getAllEvents(): List<EventOutputData> {
         repositoryLock.read {
             return repository.getAll().stream()
-                .map { event -> buildDtoFrom(event) }
+                .map { event -> buildEventOutputFrom(event) }
                 .collect(Collectors.toList())
         }
     }
 
-    override fun updateEvent(id: Int, eventDto: EventDto) {
-        val updatedEvent = buildEventFrom(eventDto)
+    override fun updateEvent(id: Int, eventInput: EventInputData) {
+        val updatedEvent = buildEventFrom(id, eventInput)
         repositoryLock.write {
             validateId(id)
             repository.update(id, updatedEvent)
@@ -58,11 +60,11 @@ class EventService constructor(private val repository: IEventRepository) : IEven
         repository.get(id) ?: throw IndexOutOfBoundsException("No task exists with the specified ID.")
     }
 
-    private fun buildDtoFrom(event: Event): EventDto {
-        return EventDto(event.id, event.title)
+    private fun buildEventOutputFrom(event: Event): EventOutputData {
+        return EventOutputData(event.id, event.title)
     }
 
-    private fun buildEventFrom(dto: EventDto): Event {
-        return Event(dto.id, dto.title)
+    private fun buildEventFrom(id: Int, eventInput: EventInputData): Event {
+        return Event(id, eventInput.title)
     }
 }

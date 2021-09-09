@@ -1,8 +1,8 @@
 package com.example.bubbloom.controller
 
 import com.example.bubbloom.service.IEventService
-import com.example.bubbloom.entities.Event
-import com.example.bubbloom.service.EventDto
+import com.example.bubbloom.service.data.EventInputData
+import com.example.bubbloom.service.data.EventOutputData
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -11,12 +11,12 @@ import org.springframework.web.server.ResponseStatusException
 class EventController constructor(private val eventService: IEventService) {
 
     @PostMapping("/events/")
-    fun saveEvent(@RequestBody eventDto: EventDto) {
-        eventService.saveEvent(eventDto)
+    fun saveEvent(@RequestBody eventInput: EventInputData) {
+        eventService.saveEvent(eventInput)
     }
 
     @GetMapping("/events/{id}")
-    fun getEvent(@PathVariable id: Int): EventDto {
+    fun getEvent(@PathVariable id: Int): EventOutputData {
         try {
             return eventService.getEvent(id)
         } catch (e: Exception) {
@@ -25,14 +25,14 @@ class EventController constructor(private val eventService: IEventService) {
     }
 
     @GetMapping("/events/")
-    fun getAllEvents(): List<EventDto> {
+    fun getAllEvents(): List<EventOutputData> {
         return eventService.getAllEvents()
     }
 
     @PutMapping("/events/{id}")
-    fun updateEvent(@PathVariable id: Int, @RequestBody eventDto: EventDto) {
+    fun updateEvent(@PathVariable id: Int, @RequestBody eventInput: EventInputData) {
         try {
-            eventService.updateEvent(id, eventDto)
+            eventService.updateEvent(id, eventInput)
         } catch (e: Exception) {
             throw convertException(e)
         }
