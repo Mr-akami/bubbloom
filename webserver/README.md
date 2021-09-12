@@ -1,0 +1,17 @@
+# NGINX Web Server
+
+## Roles of Web Server
+- Web Server: Shows web pages.
+- Reverse Proxy: Accepts HTTP requests from clients and transfers them to the back-end services
+so that clients do not need to know addresses or responsibilities of the back-end services.
+
+## How to start the service
+Run the below commands. 
+```
+docker-compose -p bubbloom build
+docker-compose -p bubbloom up
+```
+The -p option sets the project name which also decides the prefixes of 
+the images, the containers, the volume and the network used for the web server.
+Using "bubbloom" for the project name makes it possible
+for this container to work with the other containers started by different compose files.

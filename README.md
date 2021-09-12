@@ -4,8 +4,16 @@
 Install and configure docker in your environment. After that, you can run the below commands from the root directory of this project.
 
 ```
-Run docker-compose build
-Run docker-compose up
+docker-compose build
+docker-compose up
+```
+If you want to start containers in the detached mode, run the following commands instead.
+Without the `-d` option all the containers will be started and stopped at the same time.
+Using the `-d` option allows you to handle the containers separately using docker commands.
+
+```
+docker-compose build
+docker-compose up -d
 ```
 
 ## CRUD operations for events

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+
+  event-db:
+    image: mariadb:10.5.12
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: event_service_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - type: volume
+        source: event-volume
+        target: /var/lib/mysql
+      - type: bind
+        source: ./src/main/resources/db
+        target: /docker-entrypoint-initdb.d
+    networks:
+      - backend
+
+  event-service:
+    build: ./
+    ports:
+      - "49160:8080"
+    depends_on:
+      - event-db
+    networks:
+      - backend
+
+volumes:
+  event-volume:
+
+networks:
+  backend:
+    driver: bridge
