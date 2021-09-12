@@ -4,7 +4,6 @@ import com.example.bubbloom.entities.Event
 import com.example.bubbloom.service.IEventRepository
 import java.util.*
 
-//@Repository
 class InMemoryEventRepository : IEventRepository {
 
     private val events = HashMap<String, Event>()
