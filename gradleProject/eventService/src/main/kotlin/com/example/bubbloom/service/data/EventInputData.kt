@@ -1,3 +1,8 @@
 package com.example.bubbloom.service.data
 
-data class EventInputData(val title: String)
+import com.fasterxml.jackson.annotation.JsonProperty
+
+data class EventInputData(
+    @JsonProperty("title") val title: String
+)
+
