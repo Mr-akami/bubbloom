@@ -23,8 +23,6 @@ services:
     build: ./
     ports:
       - "49160:8080"
-    depends_on:
-      - event-db
     networks:
       - backend
 
