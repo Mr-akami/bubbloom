@@ -22,6 +22,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("org.mariadb.jdbc:mariadb-java-client:2.7.4")
+    implementation("org.jooq:jooq:3.15.2")
 }
 
 tasks.withType<KotlinCompile> {

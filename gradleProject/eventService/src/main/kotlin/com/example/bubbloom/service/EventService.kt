@@ -17,16 +17,9 @@ class EventService constructor(private val repository: IEventRepository, private
 
     override fun saveEvent(eventInput: EventInputData): EventOutputData {
         repositoryLock.write {
-            val newEvent = buildEventFrom(generateUniqueId(), eventInput)
+            val newEvent = buildEventFrom(idGenerator.generate(), eventInput)
             repository.save(newEvent)
             return buildEventOutputFrom(newEvent)
-        }
-    }
-
-    private fun generateUniqueId(): String {
-        while (true) {
-            val id = idGenerator.generate()
-            if (repository.get(id) == null) return id
         }
     }
 
