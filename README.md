@@ -1,5 +1,8 @@
 # bubbloom
 
+## Architecture
+![archtiecture](model/architecture.drawio.svg)
+
 ## Getting Started
 Install and configure docker in your environment. After that, you can run the below commands from the root directory of this project.
 
