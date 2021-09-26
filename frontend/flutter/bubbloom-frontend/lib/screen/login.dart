@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPage();
 }
 
+
 class _LoginPage extends State<LoginPage> {
   // 入力されたメールアドレス
   String email = "";
